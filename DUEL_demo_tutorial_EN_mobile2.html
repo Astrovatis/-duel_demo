@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DUEL Demo - Mobile Friendly</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+
+<style>
+/* =========================================================
+   ROOT & THEME
+========================================================= */
+:root {
+    --deep-teal: #022f2f;
+    --deep-teal-soft: #033c3c;
+    --deep-teal-softer: #044646;
+    --teal-glow: rgba(3, 70, 70, 0.95);
+    --petrol: #044646;
+    --petrol-dark: #022222;
+    --gold: #d4af37;
+    --gold-soft: #f7d98a;
+    --antique-gold: #f4d47c;
+    --offwhite: #eefefe;
+    --danger: #a13333;
+    --bg: #011414;
+    --card-bg: rgba(1, 20, 20, 0.95);
+    --border-soft: rgba(180, 180, 180, 0.3);
+    --hit-green: #2ecc71;
+    --draw-grey: #555555;
+    --tie-breaker-red: #ff3b3b;
+}
+
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Layout */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #044646 0, #011414 40%, #000000 100%);
+    color: var(--offwhite);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px;
+}
+
+/* Main container adapted for mobile */
+.app-shell {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(0, 0, 0, 0.72);
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(180, 180, 180, 0.25);
+    overflow: hidden;
+}
+
+/* HEADER */
+.app-header {
+    padding: 8px 10px;
+    background: linear-gradient(90deg, #022f2f, #044646);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.app-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.duel-logo {
+    font-family: "Orbitron", system-ui;
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    color: var(--antique-gold);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+}
+
+.app-subtitle {
+    font-size: 0.64rem;
+    color: #cfeeee;
+}
+
+/* Language switcher */
+.lang-switch {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.lang-switch button {
+    font-size: 0.7rem;
+    padding: 4px 6px;
+}
+
+/* Top nav / tabs */
+.app-nav {
+    display: flex;
+    border-bottom: 1px solid var(--border-soft);
+    background: rgba(2, 31, 31, 0.85);
+}
+
+.nav-tab {
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    color: #88cccc;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-tab.active {
+    background: rgba(4, 70, 70, 0.55);
+    border-bottom-color: var(--antique-gold);
+    color: var(--offwhite);
+}
+
+/* Main content */
+.app-content {
+    padding: 8px;
+}
+
+/* Top bar within panels (for RULES, SURRENDER, Timer) */
+.panel-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.panel-top-left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.panel-top-right {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Global timer (vertical layout) */
+.global-timer {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 10px;
+    padding: 4px 6px;
+    border: 1px solid rgba(180, 180, 180, 0.45);
+    min-width: 90px;
+}
+
+.timer-label {
+    font-size: 0.6rem;
+    color: #d4e5e5;
+    margin-bottom: 2px;
+}
+
+.timer-number {
+    font-family: "Orbitron", system-ui;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--antique-gold);
+    line-height: 1.1;
+}
+
+.timer-phase {
+    font-size: 0.65rem;
+    margin-top: 2px;
+    color: #c5f2f2;
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold), #f4df96);
+    color: #1a1400;
+    box-shadow: 0 0 10px rgba(244, 212, 124, 0.45);
+}
+
+.btn-secondary {
+    background: rgba(3, 70, 70, 0.88);
+    color: var(--offwhite);
+    border: 1px solid rgba(180, 180, 180, 0.35);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #cdeeee;
+    border: 1px solid rgba(180, 180, 180, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #ffecec;
+}
+
+.btn-return-lobby {
+    font-size: 0.7rem;
+}
+
+/* Panels */
+.main-panel {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 6px;
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
+}
+
+/* Section headings inside panel */
+.panel-heading {
+    font-size: 0.75rem;
+    color: var(--antique-gold);
+    margin-bottom: 4px;
+}
+
+/* Lobby Layout */
+.lobby-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Create table + details layout */
+.lobby-create-section {
+    background: linear-gradient(145deg, #022222, rgba(0, 0, 0, 0.8));
+    border-radius: 10px;
+    padding: 8px;
+    border: 1px solid rgba(180, 180, 180, 0.25);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Number grid (Lobby & Game) */
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 3px;
+    margin-top: 4px;
+}
+
+.number {
+    border-radius: 6px;
+    padding: 4px 0;
+    font-size: 0.6rem;
+    text-align: center;
+    cursor: pointer;
+    background: radial-gradient(circle at 20% 0%, #044646, #011414);
+    color: var(--offwhite);
+    border: 1px solid rgba(180, 180, 180, 0.3);
+    transition: background 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.number.selected {
+    background: radial-gradient(circle at 20% 0%, var(--gold), #7f5b10);
+    color: #1a1200;
+    box-shadow: 0 0 8px rgba(244, 212, 124, 0.5);
+    border-color: var(--gold);
+}
+
+.number.hit {
+    background: var(--hit-green);
+    color: #ffffff;
+    border-color: #2ecc71;
+}
+
+.number.drawn-only {
+    background: var(--draw-grey);
+    color: #ffffff;
+}
+
+.number.tie-breaker {
+    background: var(--tie-breaker-red);
+    color: #ffffff;
+}
+
+.number.non-hit-selected {
+    background: radial-gradient(circle at 20% 0%, var(--antique-gold), #7f5b10);
+    color: #1a1200;
+}
+
+/* Controls group */
+.control-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+    align-items: center;
+}
+
+.control-row > * {
+    flex: 1 1 48%;
+}
+
+.control-row label {
+    font-size: 0.65rem;
+}
+
+/* Inputs */
+select, input[type="number"] {
+    width: 100%;
+    background: rgba(2, 34, 34, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(180, 180, 180, 0.3);
+    color: var(--offwhite);
+    padding: 4px;
+    font-size: 0.7rem;
+}
+
+/* Existing tables list */
+.tables-panel {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 8px;
+    border: 1px solid rgba(180, 180, 180, 0.25);
+}
+
+.tables-filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.tables-filters-row > * {
+    flex: 1 1 30%;
+}
+
+.tables-list {
+    margin-top: 4px;
+    max-height: 170px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(180, 180, 180, 0.25);
+}
+
+.tables-list table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.62rem;
+}
+
+.tables-list thead {
+    position: sticky;
+    top: 0;
+    background: rgba(1, 18, 18, 0.96);
+    z-index: 1;
+}
+
+.tables-list th, .tables-list td {
+    padding: 4px 3px;
+    text-align: left;
+    border-bottom: 1px solid rgba(180, 180, 180, 0.15);
+}
+
+.tables-list th {
+    font-weight: 600;
+    color: #ddf2f2;
+}
+
+.table-row {
+    cursor: pointer;
+}
+
+.table-row:hover {
+    background: rgba(4, 70, 70, 0.4);
+}
+
+/* Table status colors */
+.table-status-waiting {
+    background: rgba(4, 70, 70, 0.35);
+}
+
+.table-status-countdown {
+    background: rgba(4, 70, 70, 0.55);
+}
+
+.table-status-drawing {
+    background: rgba(192, 57, 43, 0.28);
+}
+
+.tables-list td:nth-child(1) {
+    width: 8%;
+}
+.tables-list td:nth-child(2) {
+    width: 18%;
+}
+.tables-list td:nth-child(3),
+.tables-list td:nth-child(4),
+.tables-list td:nth-child(5),
+.tables-list td:nth-child(6),
+.tables-list td:nth-child(7) {
+    width: 12%;
+}
+
+/* Game header */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.duel-logo-game {
+    font-family: "Orbitron", system-ui;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: var(--antique-gold);
+}
+
+.game-info-tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.game-info-tab {
+    background: rgba(4, 70, 70, 0.85);
+    border-radius: 999px;
+    padding: 2px 6px;
+    font-size: 0.63rem;
+    border: 1px solid rgba(180, 180, 180, 0.4);
+}
+
+/* Controls panel generic */
+.controls-panel {
+    background: rgba(1, 18, 18, 0.96);
+    border-radius: 10px;
+    padding: 6px;
+    border: 1px solid rgba(180, 180, 180, 0.3);
+    margin-bottom: 6px;
+}
+
+/* Draw animation */
+#draw-animation-container {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.slot {
+    width: 100%;
+    padding: 4px 0;
+    text-align: center;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 0%, #333333, #000000);
+    color: var(--offwhite);
+    font-size: 0.7rem;
+    border: 1px solid rgba(180, 180, 180, 0.4);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+}
+
+.tie-breaker-slot {
+    border-color: var(--tie-breaker-red);
+}
+
+/* Scoreboard table (Game) */
+#scoreboard table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.62rem;
+}
+
+#scoreboard th, #scoreboard td {
+    padding: 3px 4px;
+    text-align: left;
+    border-bottom: 1px solid rgba(180, 180, 180, 0.18);
+}
+
+/* Popups */
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.popup-content {
+    background: rgba(1, 20, 20, 0.96);
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid rgba(244, 212, 124, 0.5);
+    text-align: center;
+    max-width: 280px;
+}
+
+.popup-content h2 {
+    font-size: 1rem;
+    color: var(--antique-gold);
+    margin-bottom: 6px;
+}
+
+.popup-content p {
+    font-size: 0.76rem;
+    margin-bottom: 8px;
+}
+
+/* Rules modal */
+.rules-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+}
+
+.rules-content {
+    background: rgba(1, 20, 20, 0.96);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(244, 212, 124, 0.6);
+    max-width: 340px;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-size: 0.72rem;
+}
+
+/* Request modal */
+.request-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1600;
+}
+
+.request-modal-content {
+    background: rgba(1, 20, 20, 0.96);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(244, 212, 124, 0.6);
+    max-width: 320px;
+    font-size: 0.75rem;
+}
+
+/* Tutorial overlay */
+#tutorial-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.tutorial-box {
+    position: absolute;
+    max-width: 260px;
+    background: rgba(1, 22, 22, 0.98);
+    border-radius: 10px;
+    border: 1px solid rgba(244, 212, 124, 0.7);
+    padding: 10px;
+    font-size: 0.7rem;
+    box-shadow: 0 0 22px rgba(0, 0, 0, 0.9);
+}
+
+.tutorial-box h3 {
+    font-size: 0.8rem;
+    margin-bottom: 3px;
+    color: var(--antique-gold);
+}
+
+.tutorial-box p {
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.tutorial-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.tutorial-highlight {
+    position: fixed;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px rgba(244, 212, 124, 0.9), 0 0 20px rgba(244, 212, 124, 0.75);
+    pointer-events: none;
+    z-index: 2999;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(180, 180, 180, 0.5);
+    border-radius: 3px;
+}
+
+/* Utility classes */
+.text-muted {
+    color: #a5c0c0;
+    font-size: 0.65rem;
+}
+.text-gold {
+    color: var(--antique-gold);
+}
+.text-danger {
+    color: #ff7f7f;
+}
+
+/* Responsive details */
+@media (max-width: 400px) {
+    .number-grid {
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        gap: 2px;
+    }
+    .number {
+        font-size: 0.55rem;
+        border-radius: 4px;
+        padding: 3px 0;
+    }
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+<header class="app-header">
+<div class="app-title-group">
+<div class="duel-logo">DUEL</div>
+<div class="app-subtitle" id="app-subtitle">PvP Number Duel - Demo</div>
+</div>
+<div class="lang-switch">
+<button class="btn btn-secondary" id="lang-en-btn" onclick="setLanguage('en')">EN</button>
+<button class="btn btn-secondary" id="lang-gr-btn" onclick="setLanguage('gr')">GR</button>
+</div>
+</header>
+<nav class="app-nav">
+<div class="nav-tab active" id="tab-lobby" onclick="showView('lobby')">Lobby</div>
+<div class="nav-tab" id="tab-game" onclick="showView('game')">Draw Screen</div>
+<div class="nav-tab" id="tab-tutorial" onclick="startTutorial()">Tutorial</div>
+</nav>
+<main class="app-content">
+<!-- LOBBY VIEW -->
+<div class="main-panel" id="lobby-view">
+<div class="panel-top-bar">
+<div class="panel-top-left">
+<button class="btn btn-primary" onclick="showRules()">📜 RULES</button>
+<button class="btn btn-danger" onclick="surrenderFromLobby()">🏳️ Surrender</button>
+</div>
+<div class="panel-top-right">
+<div class="global-timer" id="global-timer-container-lobby" style="display:none;">
+<div class="timer-label" id="timer-label-lobby">Next Draw</div>
+<div class="timer-number" id="global-timer-lobby">60</div>
+<div class="timer-phase" id="timer-phase-lobby">Waiting</div>
+</div>
+</div>
+</div>
+<div class="lobby-row">
+<div class="lobby-create-section">
+<h3 class="panel-heading" id="create-table-title">Create Table</h3>
+<div class="control-row">
+<div>
+<label for="k-select" id="label-k">K Numbers</label>
+<select id="k-select">
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8" selected>8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+</select>
+</div>
+<div>
+<label for="rounds-select" id="label-rounds">Rounds</label>
+<select id="rounds-select">
+<option value="3">3</option>
+<option value="5" selected>5</option>
+<option value="8">8</option>
+</select>
+</div>
+</div>
+<div class="control-row">
+<div>
+<label for="stake-input" id="label-stake">Stake (€)</label>
+<input id="stake-input" min="1" step="1" type="number" value="10"/>
+</div>
+<div>
+<label for="table-type-select" id="label-type">Table Type</label>
+<select id="table-type-select">
+<option value="open">Open</option>
+<option value="closed">Closed</option>
+</select>
+</div>
+</div>
+<div class="control-row">
+<div>
+<label for="max-players-select" id="label-max-players">Max Players</label>
+<select id="max-players-select">
+<option value="2">2</option>
+<option value="4">4</option>
+<option value="6">6</option>
+<option value="8">8</option>
+<option value="10">10</option>
+<option value="12" selected>12</option>
+</select>
+</div>
+<div>
+<label id="label-my-numbers">Your Numbers</label>
+</div>
+</div>
+<div class="number-grid" id="lobby-number-grid"></div>
+<div class="control-row">
+<button class="btn btn-secondary" onclick="clearLobbySelection()">🧹 Clear</button>
+<button class="btn btn-secondary" onclick="randomLobbySelection()">🎲 Random pick</button>
+</div>
+<div class="control-row">
+<button class="btn btn-primary" style="flex:2;" onclick="createTable()">➕ Create Table</button>
+<button class="btn btn-ghost" style="flex:1;" onclick="goToGameView()">➡️ Draw Screen</button>
+</div>
+<p class="text-muted" id="lobby-hint">
+Choose K numbers and create a table. You can then go to the Draw Screen.
+</p>
+</div>
+<div class="tables-panel">
+<div class="panel-heading" id="existing-tables-title">Existing Tables</div>
+<div class="tables-filters-row">
+<select id="filter-k" onchange="applyTableFilters()">
+<option value="">K</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+</select>
+<select id="filter-type" onchange="applyTableFilters()">
+<option value="">Type</option>
+<option value="open">Open</option>
+<option value="closed">Closed</option>
+</select>
+<select id="filter-rounds" onchange="applyTableFilters()">
+<option value="">Rounds</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="8">8</option>
+</select>
+<select id="filter-stake" onchange="applyTableFilters()">
+<option value="">Stake</option>
+<option value="5">5€</option>
+<option value="10">10€</option>
+<option value="20">20€</option>
+<option value="50">50€</option>
+</select>
+<select id="filter-status" onchange="applyTableFilters()">
+<option value="">Status</option>
+<option value="waiting">Waiting</option>
+<option value="countdown">Countdown</option>
+<option value="drawing">Drawing</option>
+</select>
+<select id="filter-players" onchange="applyTableFilters()">
+<option value="">Players</option>
+<option value="2">2</option>
+<option value="4">4</option>
+<option value="6">6</option>
+<option value="8">8</option>
+<option value="10">10</option>
+<option value="12">12</option>
+</select>
+<select id="filter-seconds" onchange="applyTableFilters()">
+<option value="">Seconds</option>
+<option value=">30">&gt; 30"</option>
+<option value="<=30">&le; 30"</option>
+</select>
+<select id="filter-round-progress" onchange="applyTableFilters()">
+<option value="">Round</option>
+<option value="early">Early</option>
+<option value="middle">Middle</option>
+<option value="late">Late</option>
+</select>
+</div>
+<div class="tables-list">
+<table>
+<thead>
+<tr>
+<th id="th-id">#</th>
+<th id="th-k">No.</th>
+<th id="th-players">Players</th>
+<th id="th-stake">Stake</th>
+<th id="th-type">Type</th>
+<th id="th-round">Round</th>
+<th id="th-seconds">Sec</th>
+</tr>
+</thead>
+<tbody id="tables-body">
+</tbody>
+</table>
+</div>
+<p class="text-muted" id="tables-hint">
+Tap on a table to join (if you are not already playing in another one).
+</p>
+</div>
+</div>
+</div>
+<!-- GAME VIEW -->
+<div class="main-panel" id="game-view" style="display:none;">
+<div class="panel-top-bar">
+<div class="panel-top-left">
+<button class="btn btn-primary" onclick="showRules()">📜 RULES</button>
+<button class="btn btn-danger" onclick="surrenderGameFromGame()">🏳️ Surrender</button>
+<button class="btn btn-ghost btn-return-lobby" onclick="returnToLobbyFromGame()">↩️ Back to Lobby</button>
+</div>
+<div class="panel-top-right">
+<div class="global-timer" id="global-timer-container-game" style="display:none;">
+<div class="timer-label">Next Draw</div>
+<div class="timer-number" id="global-timer-game">60</div>
+<div class="timer-phase" id="timer-phase-game">Waiting</div>
+</div>
+</div>
+</div>
+<div class="game-header" id="game-header">
+<div class="duel-logo-game">DUEL</div>
+<div>
+<div class="game-info-tabs">
+<div class="game-info-tab" id="game-round-tab">ROUND 1</div>
+<div class="game-info-tab" id="game-stake-tab">STAKE 10€</div>
+</div>
+</div>
+</div>
+<!-- ΜΟΝΗ αλλαγή στο layout: κάθετα, όχι δίπλα-δίπλα -->
+<div style="display: flex; flex-direction: column; gap: 8px; margin-top:6px;">
+<div>
+<div class="controls-panel">
+<h3 style="text-align: left; font-size: 0.78em;">Drawn Numbers (<span id="draw-count">0</span> / 12)</h3>
+<div id="draw-animation-container">
+<div class="slot">?</div><div class="slot">?</div><div class="slot">?</div><div class="slot">?</div>
+<div class="slot">?</div><div class="slot">?</div><div class="slot">?</div><div class="slot">?</div>
+<div class="slot">?</div><div class="slot">?</div><div class="slot">?</div><div class="slot">?</div>
+<div class="slot tie-breaker-slot">?</div>
+</div>
+<p style="font-size: 0.62em; color: var(--antique-gold); margin-top: 4px; margin-bottom: 2px; display: flex; gap: 6px; flex-wrap: wrap;">
+<span style="background-color: var(--hit-green); color: white; padding: 1px 2px; border-radius: 2px;">Hit</span>
+<span style="background-color: var(--draw-grey); color: white; padding: 1px 2px; border-radius: 2px;">Drawn</span>
+<span style="background-color: var(--antique-gold); color: black; padding: 1px 2px; border-radius: 2px;">Selected</span>
+<span style="background-color: var(--tie-breaker-red); color: white; padding: 1px 2px; border-radius: 2px;">Tie-Breaker</span>
+</p>
+<div style="display:flex; gap:4px; margin-bottom:4px;">
+<button class="btn btn-secondary" onclick="clearGameSelectionOrResults()" style="flex:1; font-size:0.7em;">🧹 Clear</button>
+<button class="btn btn-secondary" onclick="randomSelectionFromGame()" style="flex:1; font-size:0.7em;">🎲 Random pick</button>
+</div>
+<div class="number-grid" id="game-number-grid"></div>
+</div>
+</div>
+<div>
+<div class="controls-panel" id="scoreboard">
+<h3 style="font-size: 0.78em;">Results Table</h3>
+<table>
+<thead><tr><th>#</th><th>Player</th><th>Hits</th><th>Winnings</th></tr></thead>
+<tbody id="scoreboard-body"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- MODALS -->
+<div class="request-modal" id="request-modal">
+<div class="request-modal-content">
+<h3 style="color: var(--antique-gold); margin-bottom: 10px; font-size:0.85em;">Join Request</h3>
+<div id="request-table-info" style="margin-bottom:8px;"></div>
+<div style="display:flex; justify-content:flex-end; gap:6px;">
+<button class="btn btn-secondary" onclick="closeRequestModal()">Cancel</button>
+<button class="btn btn-primary" onclick="confirmJoinTable()">Join</button>
+</div>
+</div>
+</div>
+<div class="rules-modal" id="rules-modal">
+<div class="rules-content">
+<h2 id="rules-title" style="margin-bottom:6px; font-size:0.9rem;">📜 DUEL RULES</h2>
+<div id="rules-body">
+<p><strong>Basic Rules:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>You select K numbers from 1 to 50.</li>
+<li>12 numbers are drawn each round.</li>
+<li>In case of a tie on top, a 13th number (Tie-Breaker) is drawn.</li>
+<li>The player with the most hits wins.</li>
+<li>The pot is shared in case the tie remains after the 13th number.</li>
+</ul>
+<p><strong>Payout Structure:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Normally one player wins the pot (except if a tie remains).</li>
+<li>Absolute (K hits): Stake × Multiplier + Pot share.</li>
+<li>Absolute-1 (K-1 hits): Pot share + Extra 50% of the total pot from the provider.</li>
+<li>13th number (Tie-Breaker): Decides the winner among the tied players.</li>
+</ul>
+<p><strong>Absolute Multipliers:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>6 numbers: 500×</li>
+<li>7 numbers: 1.500×</li>
+<li>8 numbers: 5.000×</li>
+<li>9 numbers: 12.000×</li>
+<li>10 numbers: 100.000×</li>
+<li>11 numbers: 500.000×</li>
+<li>12 numbers: 1.000.000× (for 50€ stake: 20.000.000×)</li>
+</ul>
+<p><strong>Timings:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>60"-46": Display of previous draw and results (you can clear them using the "Clear" button).</li>
+<li>45"-11": Number selection for the next round.</li>
+<li>10"-0": Selections lock.</li>
+<li>0": Draw is performed.</li>
+</ul>
+<p><strong>Table Types:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Open: The countdown starts immediately when the table is created.</li>
+<li>Closed: A join request must be accepted by the table owner.</li>
+<li>Closed: The initial countdown starts once all seats are filled.</li>
+<li>Any empty seats at 10" are filled by bots.</li>
+</ul>
+<p><strong>Surrender:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Before selections are locked: You only lose the stake of the current round.</li>
+<li>After selections are locked: You participate in the current draw but lose the stake of the next round as well.</li>
+</ul>
+</div>
+<div style="text-align:right; margin-top:8px;">
+<button class="btn btn-secondary" onclick="closeRules()">Close</button>
+</div>
+</div>
+</div>
+<div class="popup" id="win-popup">
+<div class="popup-content">
+<h2 id="win-popup-title">Congratulations!</h2>
+<p id="win-popup-message">You won 0€</p>
+<button class="btn btn-secondary" onclick="closeWinPopup()">Close</button>
+</div>
+</div>
+<div class="popup" id="big-win-popup">
+<div class="popup-content">
+<h2 id="big-win-popup-title">Huge Win!</h2>
+<p id="big-win-popup-message">You won 0€</p>
+<button class="btn btn-secondary" onclick="closeBigWinPopup()">Close</button>
+</div>
+</div>
+<div id="tutorial-overlay">
+<div class="tutorial-box" id="tutorial-box">
+<h3 id="tutorial-step-title">Welcome</h3>
+<p id="tutorial-step-text">This tutorial will guide you through the DUEL demo.</p>
+<div class="tutorial-buttons">
+<button class="btn btn-secondary" onclick="skipTutorial()">Skip</button>
+<button class="btn btn-primary" onclick="nextTutorialStep()">Next</button>
+</div>
+</div>
+<div class="tutorial-highlight" id="tutorial-highlight"></div>
+</div>
+</main>
+</div>
+<script>
+/***********************************************************
+ * GLOBAL STATE
+ ***********************************************************/
+let currentView = "lobby";
+let currentLanguage = "en";
+
+let tables = [];
+let nextTableId = 1;
+
+let currentTable = null;
+let currentRound = 1;
+let maxRounds = 5;
+let kNumbers = 8;
+let stakeValue = 10;
+let isCountingDown = false;
+let countdownValue = 60;
+let drawingPhase = false;
+
+let lobbySelection = new Set();
+let gameSelection = new Set();
+
+let lobbyTimerInterval = null;
+let gameTimerInterval = null;
+
+let winningRigEnabled = false;
+
+let isCurrentlyInATable = false;
+
+let tutorialSteps = [];
+let currentTutorialIndex = 0;
+
+const textContent = {
+    en: {
+        appSubtitle: "PvP Number Duel - Demo",
+        createTableTitle: "Create Table",
+        labelK: "K Numbers",
+        labelRounds: "Rounds",
+        labelStake: "Stake (€)",
+        labelType: "Table Type",
+        labelMyNumbers: "Your Numbers",
+        tablesTitle: "Existing Tables",
+        lobbyHint: "Choose K numbers and create a table. You can then go to the Draw Screen.",
+        tablesHint: "Tap on a table to join (if you are not already playing in another one).",
+        thId: "#",
+        thK: "No.",
+        thPlayers: "Players",
+        thStake: "Stake",
+        thType: "Type",
+        thRound: "Round",
+        thSeconds: "Sec",
+        rulesTitle: "📜 DUEL RULES",
+        rulesBody: null
+    },
+    gr: {
+        appSubtitle: "PvP αριθμολαχείο - Demo",
+        createTableTitle: "Δημιουργία Τραπεζιού",
+        labelK: "Αριθμοί K",
+        labelRounds: "Γύροι",
+        labelStake: "Ποντάρισμα (€)",
+        labelType: "Τύπος Τραπεζιού",
+        labelMyNumbers: "Οι αριθμοί σου",
+        tablesTitle: "Υπάρχοντα Τραπέζια",
+        lobbyHint: "Επίλεξε K αριθμούς και δημιούργησε τραπέζι. Έπειτα μπορείς να πας στην Οθόνη Κλήρωσης.",
+        tablesHint: "Πάτησε σε ένα τραπέζι για να μπεις (αν δεν παίζεις ήδη σε κάποιο άλλο).",
+        thId: "#",
+        thK: "Αρ.",
+        thPlayers: "Παίκτες",
+        thStake: "Ποντάρισμα",
+        thType: "Τύπος",
+        thRound: "Γύρος",
+        thSeconds: "Δευτ.",
+        rulesTitle: "📜 ΚΑΝΟΝΕΣ DUEL",
+        rulesBody: `
+<p><strong>Βασικοί Κανόνες:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Επιλέγετε K αριθμούς από το 1 έως το 50.</li>
+<li>Κληρώνονται 12 αριθμοί ανά γύρο.</li>
+<li>Σε περίπτωση ισοβαθμίας στην κορυφή κληρώνεται 13ος αριθμός (Tie-Breaker).</li>
+<li>Κερδίζει ο παίκτης με τα περισσότερα hits.</li>
+<li>Το pot μοιράζεται σε περίπτωση που η ισοπαλία παραμείνει και μετά τον 13ο αριθμό.</li>
+</ul>
+<p><strong>Κατανομή Κερδών:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Κερδίζει ένας το pot (εκτός αν παραμείνει η ισοβαθμία).</li>
+<li>Απόλυτο (K hits): Ποντάρισμα × Πολλαπλασιαστής + Μερίδιο pot.</li>
+<li>Απόλυτο-1 (K-1 hits): Μερίδιο pot + 50% του συνολικού pot από τον πάροχο.</li>
+<li>13ος αριθμός (Tie-Breaker): Αποφασίζει τον νικητή ανάμεσα στους ισόβαθμους.</li>
+</ul>
+<p><strong>Πολλαπλασιαστές Απόλυτου:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>6 αριθμοί: 500×</li>
+<li>7 αριθμοί: 1.500×</li>
+<li>8 αριθμοί: 5.000×</li>
+<li>9 αριθμοί: 12.000×</li>
+<li>10 αριθμοί: 100.000×</li>
+<li>11 αριθμοί: 500.000×</li>
+<li>12 αριθμοί: 1.000.000× (με ποντάρισμα 50€: 20.000.000×)</li>
+</ul>
+<p><strong>Χρονισμοί:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>60"-46": Προβολή προηγούμενης κλήρωσης και αποτελεσμάτων (καθαρίζει με το κουμπί "Καθαρισμός").</li>
+<li>45"-11": Επιλογή αριθμών για τον επόμενο γύρο.</li>
+<li>10"-0": Κλείδωμα επιλογών.</li>
+<li>0": Εκτέλεση κλήρωσης.</li>
+</ul>
+<p><strong>Τύποι Τραπεζιών:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Ανοιχτά: Το χρονόμετρο ξεκινάει αμέσως με τη δημιουργία.</li>
+<li>Κλειστά: Απαιτείται αποδοχή αιτήματος συμμετοχής.</li>
+<li>Κλειστά: Ο αρχικός χρόνος αντίστροφης μέτρησης ξεκινάει όταν συμπληρωθούν όλες οι θέσεις.</li>
+<li>Τυχόν κενές θέσεις στο 10" καλύπτονται με bots.</li>
+</ul>
+<p><strong>Υποχώρηση:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Πριν το κλείδωμα επιλογών: Χάνετε μόνο το ποντάρισμα του τρέχοντος γύρου.</li>
+<li>Μετά το κλείδωμα επιλογών: Συμμετέχετε στην τρέχουσα κλήρωση και χάνετε το ποντάρισμα του επόμενου γύρου.</li>
+</ul>
+`
+    }
+};
+
+let requestModalState = {
+    tableId: null
+};
+
+let currentTableBeingJoined = null;
+
+let winPopupTimeout = null;
+let bigWinPopupTimeout = null;
+
+let currentLangTexts = textContent.en;
+
+/***********************************************************
+ * INIT
+ ***********************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+    buildLobbyGrid();
+    buildGameGrid();
+    generateMockTables();
+    applyTableFilters();
+    setLanguage("en");
+});
+
+/***********************************************************
+ * LANGUAGE
+ ***********************************************************/
+function setLanguage(lang) {
+    currentLanguage = lang;
+    if (lang === "en") {
+        currentLangTexts = textContent.en;
+    } else {
+        currentLangTexts = textContent.gr;
+    }
+
+    document.getElementById("app-subtitle").textContent = currentLangTexts.appSubtitle;
+    document.getElementById("create-table-title").textContent = currentLangTexts.createTableTitle;
+    document.getElementById("label-k").textContent = currentLangTexts.labelK;
+    document.getElementById("label-rounds").textContent = currentLangTexts.labelRounds;
+    document.getElementById("label-stake").textContent = currentLangTexts.labelStake;
+    document.getElementById("label-type").textContent = currentLangTexts.labelType;
+    document.getElementById("label-my-numbers").textContent = currentLangTexts.labelMyNumbers;
+    document.getElementById("existing-tables-title").textContent = currentLangTexts.tablesTitle;
+    document.getElementById("lobby-hint").textContent = currentLangTexts.lobbyHint;
+    document.getElementById("tables-hint").textContent = currentLangTexts.tablesHint;
+
+    document.getElementById("th-id").textContent = currentLangTexts.thId;
+    document.getElementById("th-k").textContent = currentLangTexts.thK;
+    document.getElementById("th-players").textContent = currentLangTexts.thPlayers;
+    document.getElementById("th-stake").textContent = currentLangTexts.thStake;
+    document.getElementById("th-type").textContent = currentLangTexts.thType;
+    document.getElementById("th-round").textContent = currentLangTexts.thRound;
+    document.getElementById("th-seconds").textContent = currentLangTexts.thSeconds;
+
+    const rulesTitleEl = document.getElementById("rules-title");
+    const rulesBodyEl = document.getElementById("rules-body");
+    rulesTitleEl.textContent = currentLangTexts.rulesTitle;
+    if (currentLanguage === "gr" && currentLangTexts.rulesBody) {
+        rulesBodyEl.innerHTML = currentLangTexts.rulesBody;
+    } else {
+        rulesBodyEl.innerHTML = `
+<p><strong>Basic Rules:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>You select K numbers from 1 to 50.</li>
+<li>12 numbers are drawn each round.</li>
+<li>In case of a tie on top, a 13th number (Tie-Breaker) is drawn.</li>
+<li>The player with the most hits wins.</li>
+<li>The pot is shared if the tie remains after the 13th number.</li>
+</ul>
+<p><strong>Payout Structure:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Normally one player wins the pot (except if the tie remains).</li>
+<li>Absolute (K hits): Stake × Multiplier + Pot share.</li>
+<li>Absolute-1 (K-1 hits): Pot share + Extra 50% of the total pot from the provider.</li>
+<li>13th number (Tie-Breaker): Decides the winner among the tied players.</li>
+</ul>
+<p><strong>Absolute Multipliers:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>6 numbers: 500×</li>
+<li>7 numbers: 1.500×</li>
+<li>8 numbers: 5.000×</li>
+<li>9 numbers: 12.000×</li>
+<li>10 numbers: 100.000×</li>
+<li>11 numbers: 500.000×</li>
+<li>12 numbers: 1.000.000× (for 50€ stake: 20.000.000×)</li>
+</ul>
+<p><strong>Timings:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>60"-46": Display of previous draw and results (cleared by the "Clear" button).</li>
+<li>45"-11": Choosing numbers for the next round.</li>
+<li>10"-0": Selections lock.</li>
+<li>0": Draw is performed.</li>
+</ul>
+<p><strong>Table Types:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Open: Countdown starts immediately when the table is created.</li>
+<li>Closed: Join request must be accepted by the table owner.</li>
+<li>Closed: Initial countdown starts once all seats are filled.</li>
+<li>Any empty seats at 10" are filled by bots.</li>
+</ul>
+<p><strong>Surrender:</strong></p>
+<ul style="margin-left:16px; margin-bottom:6px;">
+<li>Before selections are locked: You only lose the stake of the current round.</li>
+<li>After selections are locked: You participate in the current draw and lose the stake of the next round as well.</li>
+</ul>
+`;
+    }
+
+    document.getElementById("lang-en-btn").style.borderColor = (lang === "en") ? "var(--antique-gold)" : "rgba(180,180,180,0.3)";
+    document.getElementById("lang-gr-btn").style.borderColor = (lang === "gr") ? "var(--antique-gold)" : "rgba(180,180,180,0.3)";
+}
+
+/***********************************************************
+ * VIEW SWITCH
+ ***********************************************************/
+function showView(view) {
+    currentView = view;
+    document.getElementById("lobby-view").style.display = (view === "lobby") ? "block" : "none";
+    document.getElementById("game-view").style.display = (view === "game") ? "block" : "none";
+    document.getElementById("tab-lobby").classList.toggle("active", view === "lobby");
+    document.getElementById("tab-game").classList.toggle("active", view === "game");
+}
+
+function goToGameView() {
+    if (!currentTable) {
+        currentTable = tables[0] || null;
+    }
+    showView("game");
+}
+
+/***********************************************************
+ * LOBBY GRID
+ ***********************************************************/
+function buildLobbyGrid() {
+    const container = document.getElementById("lobby-number-grid");
+    container.innerHTML = "";
+    lobbySelection.clear();
+    for (let i = 1; i <= 50; i++) {
+        const div = document.createElement("div");
+        div.className = "number";
+        div.textContent = i;
+        div.dataset.value = i;
+        div.addEventListener("click", () => toggleLobbyNumber(i, div));
+        container.appendChild(div);
+    }
+}
+
+function toggleLobbyNumber(num, element) {
+    const k = parseInt(document.getElementById("k-select").value, 10);
+    if (lobbySelection.has(num)) {
+        lobbySelection.delete(num);
+        element.classList.remove("selected");
+    } else {
+        if (lobbySelection.size < k) {
+            lobbySelection.add(num);
+            element.classList.add("selected");
+        }
+    }
+}
+
+function clearLobbySelection() {
+    lobbySelection.clear();
+    const container = document.getElementById("lobby-number-grid");
+    Array.from(container.children).forEach(ch => ch.classList.remove("selected"));
+}
+
+function randomLobbySelection() {
+    clearLobbySelection();
+    const k = parseInt(document.getElementById("k-select").value, 10);
+    let numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+    for (let i = numbers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    const chosen = numbers.slice(0, k);
+    chosen.forEach(num => {
+        lobbySelection.add(num);
+        const el = document.querySelector(`#lobby-number-grid .number[data-value="${num}"]`);
+        if (el) el.classList.add("selected");
+    });
+}
+
+/***********************************************************
+ * TABLES
+ ***********************************************************/
+function createTable() {
+    if (isCurrentlyInATable) {
+        alert("You are already playing at a table. Use Surrender if you want to leave it.");
+        return;
+    }
+    const k = parseInt(document.getElementById("k-select").value, 10);
+    const rounds = parseInt(document.getElementById("rounds-select").value, 10);
+    const stake = parseInt(document.getElementById("stake-input").value, 10) || 10;
+    const type = document.getElementById("table-type-select").value;
+    const maxPlayers = parseInt(document.getElementById("max-players-select").value, 10);
+
+    if (lobbySelection.size !== k) {
+        alert("Please select exactly K numbers.");
+        return;
+    }
+
+    const newTable = {
+        id: nextTableId++,
+        k: k,
+        rounds: rounds,
+        stake: stake,
+        type: type,
+        maxPlayers: maxPlayers,
+        currentPlayers: Math.floor(Math.random() * maxPlayers) + 1,
+        currentRound: 1,
+        secondsLeft: 60,
+        status: "waiting",
+        ownerIsYou: true,
+        isClosedFullCountdownStarted: false
+    };
+
+    tables.push(newTable);
+    currentTable = newTable;
+    isCurrentlyInATable = true;
+    currentRound = 1;
+    maxRounds = rounds;
+    kNumbers = k;
+    stakeValue = stake;
+
+    applyTableFilters();
+    updateGameHeaderFromTable();
+    resetGameSelections();
+    syncGlobalTimers();
+    showView("game");
+}
+
+function generateMockTables() {
+    const mock = [
+        { k: 8, rounds: 5, stake: 10, type: "open", maxPlayers: 12 },
+        { k: 6, rounds: 3, stake: 5, type: "open", maxPlayers: 8 },
+        { k: 10, rounds: 5, stake: 20, type: "closed", maxPlayers: 10 },
+        { k: 9, rounds: 8, stake: 10, type: "open", maxPlayers: 12 },
+        { k: 7, rounds: 5, stake: 5, type: "closed", maxPlayers: 6 }
+    ];
+    mock.forEach(cfg => {
+        tables.push({
+            id: nextTableId++,
+            k: cfg.k,
+            rounds: cfg.rounds,
+            stake: cfg.stake,
+            type: cfg.type,
+            maxPlayers: cfg.maxPlayers,
+            currentPlayers: Math.floor(Math.random() * cfg.maxPlayers) + 1,
+            currentRound: 1 + Math.floor(Math.random() * cfg.rounds),
+            secondsLeft: 60 - Math.floor(Math.random() * 60),
+            status: "waiting",
+            ownerIsYou: false,
+            isClosedFullCountdownStarted: false
+        });
+    });
+}
+
+function applyTableFilters() {
+    let filtered = [...tables];
+
+    const kValue = document.getElementById("filter-k").value;
+    const typeValue = document.getElementById("filter-type").value;
+    const roundsValue = document.getElementById("filter-rounds").value;
+    const stakeValueFilter = document.getElementById("filter-stake").value;
+    const statusValue = document.getElementById("filter-status").value;
+    const playersValue = document.getElementById("filter-players").value;
+    const secondsValue = document.getElementById("filter-seconds").value;
+    const roundProgress = document.getElementById("filter-round-progress").value;
+
+    if (kValue) filtered = filtered.filter(t => t.k === parseInt(kValue, 10));
+    if (typeValue) filtered = filtered.filter(t => t.type === typeValue);
+    if (roundsValue) filtered = filtered.filter(t => t.rounds === parseInt(roundsValue, 10));
+    if (stakeValueFilter) filtered = filtered.filter(t => t.stake === parseInt(stakeValueFilter, 10));
+    if (statusValue) filtered = filtered.filter(t => t.status === statusValue);
+    if (playersValue) filtered = filtered.filter(t => t.maxPlayers === parseInt(playersValue, 10));
+    if (secondsValue === ">30") filtered = filtered.filter(t => t.secondsLeft > 30);
+    if (secondsValue === "<=30") filtered = filtered.filter(t => t.secondsLeft <= 30);
+    if (roundProgress === "early") filtered = filtered.filter(t => t.currentRound <= Math.max(1, t.rounds / 3));
+    if (roundProgress === "middle") filtered = filtered.filter(t => t.currentRound > t.rounds / 3 && t.currentRound <= (2 * t.rounds / 3));
+    if (roundProgress === "late") filtered = filtered.filter(t => t.currentRound > (2 * t.rounds / 3));
+
+    const body = document.getElementById("tables-body");
+    body.innerHTML = "";
+
+    filtered.forEach(table => {
+        const tr = document.createElement("tr");
+        tr.className = "table-row";
+
+        let statusClass = "";
+        if (table.status === "waiting") statusClass = "table-status-waiting";
+        if (table.status === "countdown") statusClass = "table-status-countdown";
+        if (table.status === "drawing") statusClass = "table-status-drawing";
+        tr.classList.add(statusClass);
+
+        tr.innerHTML = `
+<td>${table.id}</td>
+<td>${table.k}</td>
+<td>${table.currentPlayers}/${table.maxPlayers}</td>
+<td>${table.stake}€</td>
+<td>${table.type === "open" ? "Open" : "Closed"}</td>
+<td>${table.currentRound}/${table.rounds}</td>
+<td>${table.status === "drawing" ? "Drawing" : table.secondsLeft + '"'}</td>
+`;
+
+        tr.addEventListener("click", () => onTableRowClick(table));
+        body.appendChild(tr);
+    });
+}
+
+/***********************************************************
+ * JOIN TABLE
+ ***********************************************************/
+function onTableRowClick(table) {
+    if (isCurrentlyInATable && (!currentTable || table.id !== currentTable.id)) {
+        alert("You are already playing in another table. Use Surrender to leave it.");
+        return;
+    }
+
+    if (table.type === "closed" && !table.ownerIsYou) {
+        currentTableBeingJoined = table;
+        openRequestModal(table);
+        return;
+    }
+
+    joinTable(table);
+}
+
+function openRequestModal(table) {
+    const modal = document.getElementById("request-modal");
+    const infoDiv = document.getElementById("request-table-info");
+    infoDiv.innerHTML = `
+<p>Table #${table.id}: K=${table.k}, Stake=${table.stake}€, Rounds=${table.rounds}</p>
+<p>Type: ${table.type === "open" ? "Open" : "Closed"} | Players: ${table.currentPlayers}/${table.maxPlayers}</p>
+`;
+    modal.style.display = "flex";
+}
+
+function closeRequestModal() {
+    document.getElementById("request-modal").style.display = "none";
+    currentTableBeingJoined = null;
+}
+
+function confirmJoinTable() {
+    if (!currentTableBeingJoined) return;
+    joinTable(currentTableBeingJoined);
+    closeRequestModal();
+}
+
+function joinTable(table) {
+    currentTable = table;
+    isCurrentlyInATable = true;
+    updateGameHeaderFromTable();
+    resetGameSelections();
+    syncGlobalTimers();
+    showView("game");
+}
+
+/***********************************************************
+ * GAME GRID
+ ***********************************************************/
+function buildGameGrid() {
+    const container = document.getElementById("game-number-grid");
+    container.innerHTML = "";
+    gameSelection.clear();
+    for (let i = 1; i <= 50; i++) {
+        const div = document.createElement("div");
+        div.className = "number";
+        div.textContent = i;
+        div.dataset.value = i;
+        div.addEventListener("click", () => toggleGameNumber(i, div));
+        container.appendChild(div);
+    }
+}
+
+function toggleGameNumber(num, element) {
+    if (drawingPhase) return;
+
+    const k = kNumbers || 8;
+    if (gameSelection.has(num)) {
+        gameSelection.delete(num);
+        element.classList.remove("selected");
+    } else {
+        if (gameSelection.size < k) {
+            gameSelection.add(num);
+            element.classList.add("selected");
+        }
+    }
+}
+
+function clearGameSelectionOrResults() {
+    if (drawingPhase || !currentTable) {
+        return;
+    }
+    if (countdownValue >= 46 && countdownValue <= 60 && currentRound > 1) {
+        clearNumberGridColors();
+        gameSelection.forEach(num => {
+            const el = document.querySelector(`#game-number-grid .number[data-value="${num}"]`);
+            if (el) {
+                el.classList.add("selected");
+            }
+        });
+    } else {
+        gameSelection.clear();
+        const container = document.getElementById("game-number-grid");
+        Array.from(container.children).forEach(ch => {
+            ch.classList.remove("selected", "hit", "drawn-only", "tie-breaker", "non-hit-selected");
+        });
+    }
+}
+
+function randomSelectionFromGame() {
+    if (drawingPhase || !currentTable) return;
+    const k = kNumbers || 8;
+    const container = document.getElementById("game-number-grid");
+    Array.from(container.children).forEach(ch => {
+        ch.classList.remove("selected");
+    });
+    gameSelection.clear();
+    let numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+    for (let i = numbers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    const chosen = numbers.slice(0, k);
+    chosen.forEach(num => {
+        gameSelection.add(num);
+        const el = document.querySelector(`#game-number-grid .number[data-value="${num}"]`);
+        if (el) el.classList.add("selected");
+    });
+}
+
+/***********************************************************
+ * GAME HEADER & TIMERS
+ ***********************************************************/
+function updateGameHeaderFromTable() {
+    if (!currentTable) return;
+    const roundTab = document.getElementById("game-round-tab");
+    const stakeTab = document.getElementById("game-stake-tab");
+    roundTab.textContent = `ROUND ${currentTable.currentRound}`;
+    stakeTab.textContent = `STAKE ${currentTable.stake}€`;
+    currentRound = currentTable.currentRound;
+    maxRounds = currentTable.rounds;
+    kNumbers = currentTable.k;
+    stakeValue = currentTable.stake;
+}
+
+function syncGlobalTimers() {
+    if (!currentTable) return;
+    countdownValue = currentTable.secondsLeft;
+    isCountingDown = true;
+    drawingPhase = currentTable.status === "drawing";
+
+    updateGlobalTimerDisplay();
+    if (lobbyTimerInterval) clearInterval(lobbyTimerInterval);
+    if (gameTimerInterval) clearInterval(gameTimerInterval);
+
+    lobbyTimerInterval = setInterval(() => {
+        tickTableTimers();
+        updateGlobalTimerDisplay();
+    }, 1000);
+
+    gameTimerInterval = setInterval(() => {
+        updateGlobalTimerDisplay();
+    }, 1000);
+}
+
+function tickTableTimers() {
+    tables.forEach(table => {
+        if (table.status === "drawing") {
+            return;
+        }
+        if (table.secondsLeft > 0) {
+            table.secondsLeft -= 1;
+            if (table.secondsLeft === 0) {
+                table.status = "drawing";
+                performRoundDraw(table);
+            }
+        } else {
+            table.secondsLeft = 60;
+            table.status = "countdown";
+        }
+    });
+
+    if (currentTable) {
+        countdownValue = currentTable.secondsLeft;
+        drawingPhase = currentTable.status === "drawing";
+    }
+    applyTableFilters();
+}
+
+function updateGlobalTimerDisplay() {
+    const lobbyTimer = document.getElementById("global-timer-lobby");
+    const lobbyPhase = document.getElementById("timer-phase-lobby");
+    const lobbyContainer = document.getElementById("global-timer-container-lobby");
+
+    const gameTimer = document.getElementById("global-timer-game");
+    const gamePhase = document.getElementById("timer-phase-game");
+    const gameContainer = document.getElementById("global-timer-container-game");
+
+    if (!currentTable) {
+        lobbyContainer.style.display = "none";
+        gameContainer.style.display = "none";
+        return;
+    }
+
+    lobbyContainer.style.display = "inline-flex";
+    gameContainer.style.display = "inline-flex";
+
+    lobbyTimer.textContent = countdownValue;
+    gameTimer.textContent = countdownValue;
+
+    let phaseText = "Waiting";
+    if (drawingPhase) {
+        phaseText = "Drawing";
+    } else if (countdownValue >= 46 && countdownValue <= 60 && currentRound > 1) {
+        phaseText = "Previous Results";
+    } else if (countdownValue >= 45 && countdownValue >= 11) {
+        phaseText = "Number Selection";
+    } else if (countdownValue >= 10 && countdownValue >= 0) {
+        phaseText = "Locking";
+    }
+
+    lobbyPhase.textContent = phaseText;
+    gamePhase.textContent = phaseText;
+}
+
+/***********************************************************
+ * DRAW LOGIC
+ ***********************************************************/
+function performRoundDraw(table) {
+    if (!table) return;
+
+    const drawContainer = document.getElementById("draw-animation-container");
+    const slots = Array.from(drawContainer.querySelectorAll(".slot"));
+    const tieBreakerSlot = drawContainer.querySelector(".tie-breaker-slot");
+
+    slots.forEach(s => {
+        s.textContent = "?";
+    });
+    if (tieBreakerSlot) tieBreakerSlot.textContent = "?";
+
+    drawingPhase = true;
+    clearNumberGridColors();
+
+    let numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+    for (let i = numbers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    const drawn = numbers.slice(0, 12).sort((a, b) => a - b);
+
+    const playerHits = [];
+    const playerCount = table.currentPlayers;
+    for (let p = 0; p < playerCount; p++) {
+        const playerNumbers = new Set();
+        let pool = [...numbers];
+        for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        const chosen = pool.slice(0, table.k);
+        chosen.forEach(n => playerNumbers.add(n));
+        let hits = drawn.filter(n => playerNumbers.has(n)).length;
+        playerHits.push({
+            playerIndex: p + 1,
+            numbers: playerNumbers,
+            hits: hits,
+            isYou: (p === 0)
+        });
+    }
+
+    const scoreboardBody = document.getElementById("scoreboard-body");
+    scoreboardBody.innerHTML = "";
+
+    let indexSlots = [...Array(12).keys()];
+    let currentIndex = 0;
+
+    function animateNextSlot() {
+        if (currentIndex >= 12) {
+            finalizeRound(table, drawn, playerHits);
+            return;
+        }
+
+        const slot = slots[currentIndex];
+        const num = drawn[currentIndex];
+
+        let spinCount = Math.floor(Math.random() * 8) + 4;
+        let currentSpin = 0;
+
+        const spinInterval = setInterval(() => {
+            currentSpin++;
+            const randomNum = Math.floor(Math.random() * 50) + 1;
+            slot.textContent = randomNum;
+            if (currentSpin >= spinCount) {
+                clearInterval(spinInterval);
+                slot.textContent = num;
+                markNumberGrid(num);
+                currentIndex++;
+                const delay = 150 + Math.random() * 250;
+                setTimeout(animateNextSlot, delay);
+            }
+        }, 60);
+    }
+
+    animateNextSlot();
+}
+
+function markNumberGrid(drawnNumber) {
+    const el = document.querySelector(`#game-number-grid .number[data-value="${drawnNumber}"]`);
+    if (!el) return;
+    if (gameSelection.has(drawnNumber)) {
+        el.classList.add("hit");
+    } else {
+        el.classList.add("drawn-only");
+    }
+}
+
+function clearNumberGridColors() {
+    const container = document.getElementById("game-number-grid");
+    Array.from(container.children).forEach(ch => {
+        ch.classList.remove("hit", "drawn-only", "tie-breaker", "non-hit-selected");
+        if (gameSelection.has(parseInt(ch.dataset.value, 10))) {
+            ch.classList.add("selected");
+        } else {
+            ch.classList.remove("selected");
+        }
+    });
+}
+
+function finalizeRound(table, drawn, playerHits) {
+    const drawnSet = new Set(drawn);
+    const scoreboardBody = document.getElementById("scoreboard-body");
+    scoreboardBody.innerHTML = "";
+
+    const playersSorted = [...playerHits].sort((a, b) => b.hits - a.hits);
+    let maxHits = playersSorted[0].hits;
+    let topPlayers = playersSorted.filter(p => p.hits === maxHits);
+
+    let tieBreakerNumber = null;
+    if (topPlayers.length > 1) {
+        let remaining = Array.from({ length: 50 }, (_, i) => i + 1).filter(n => !drawnSet.has(n));
+        tieBreakerNumber = remaining[Math.floor(Math.random() * remaining.length)];
+        drawnSet.add(tieBreakerNumber);
+
+        const tieBreakerSlot = document.querySelector(".tie-breaker-slot");
+        if (tieBreakerSlot) {
+            tieBreakerSlot.textContent = tieBreakerNumber;
+        }
+
+        topPlayers.forEach(p => {
+            if (p.numbers.has(tieBreakerNumber)) {
+                p.hits += 1;
+            }
+        });
+
+        playersSorted.sort((a, b) => b.hits - a.hits);
+        maxHits = playersSorted[0].hits;
+        topPlayers = playersSorted.filter(p => p.hits === maxHits);
+
+        const tieEl = document.querySelector(`#game-number-grid .number[data-value="${tieBreakerNumber}"]`);
+        if (tieEl) {
+            tieEl.classList.add("tie-breaker");
+        }
+    }
+
+    const gameGrid = document.getElementById("game-number-grid");
+    Array.from(gameGrid.children).forEach(cell => {
+        const val = parseInt(cell.dataset.value, 10);
+        if (drawnSet.has(val)) {
+            if (gameSelection.has(val)) {
+                cell.classList.add("hit");
+            } else {
+                cell.classList.add("drawn-only");
+            }
+        } else {
+            if (gameSelection.has(val)) {
+                cell.classList.add("non-hit-selected");
+            }
+        }
+    });
+
+    playersSorted.forEach((p, index) => {
+        const tr = document.createElement("tr");
+        const isWinner = (p.hits === maxHits);
+        const baseWinnings = isWinner ? (table.stake * 10) : 0;
+        tr.innerHTML = `
+<td>${index + 1}</td>
+<td>${p.isYou ? "You" : "P" + p.playerIndex}</td>
+<td>${p.hits}</td>
+<td>${baseWinnings}€</td>
+`;
+        scoreboardBody.appendChild(tr);
+    });
+
+    const you = playerHits.find(p => p.isYou);
+    if (you && you.hits > 0) {
+        const isTop = (you.hits === maxHits);
+        const isAbsolute = (you.hits === table.k);
+        const potShare = table.stake * table.currentPlayers * 0.85;
+        let winnings = isTop ? potShare : 0;
+        let message = "";
+
+        if (isAbsolute) {
+            const multiplier = getAbsoluteMultiplier(table.k, table.stake);
+            const extra = table.stake * multiplier;
+            winnings += extra;
+            message = `Huge win! You hit the Absolute (${you.hits}/${table.k}) and won approximately ${Math.round(winnings)}€!`;
+            showBigWinPopup(message);
+        } else if (isTop) {
+            winnings += table.stake * 10;
+            message = `Congratulations! You are first with ${you.hits} hits and you win approximately ${Math.round(winnings)}€.`;
+            showWinPopup(message);
+        } else if (you.hits === table.k - 1) {
+            const extra = (table.stake * table.currentPlayers * 0.5);
+            winnings += extra;
+            message = `Almost Absolute (${you.hits}/${table.k})! Near miss win of about ${Math.round(winnings)}€.`;
+            showWinPopup(message);
+        }
+    }
+
+    table.currentRound = Math.min(table.rounds, table.currentRound + 1);
+    currentRound = table.currentRound;
+    table.secondsLeft = 60;
+    table.status = "countdown";
+    drawingPhase = false;
+    updateGameHeaderFromTable();
+    applyTableFilters();
+    resetGameSelections();
+    clearTimeout(winPopupTimeout);
+    clearTimeout(bigWinPopupTimeout);
+}
+
+function getAbsoluteMultiplier(k, stake) {
+    switch (k) {
+        case 6: return 500;
+        case 7: return 1500;
+        case 8: return 5000;
+        case 9: return 12000;
+        case 10: return 100000;
+        case 11: return 500000;
+        case 12:
+            if (stake >= 50) return 20000000;
+            return 1000000;
+        default:
+            return 1000;
+    }
+}
+
+/***********************************************************
+ * POPUPS
+ ***********************************************************/
+function showWinPopup(message) {
+    const popup = document.getElementById("win-popup");
+    const msgEl = document.getElementById("win-popup-message");
+    msgEl.textContent = message;
+    popup.style.display = "flex";
+    clearTimeout(winPopupTimeout);
+    winPopupTimeout = setTimeout(() => {
+        popup.style.display = "none";
+    }, 5000);
+}
+
+function closeWinPopup() {
+    const popup = document.getElementById("win-popup");
+    popup.style.display = "none";
+}
+
+function showBigWinPopup(message) {
+    const popup = document.getElementById("big-win-popup");
+    const msgEl = document.getElementById("big-win-popup-message");
+    msgEl.textContent = message;
+    popup.style.display = "flex";
+    clearTimeout(bigWinPopupTimeout);
+    bigWinPopupTimeout = setTimeout(() => {
+        popup.style.display = "none";
+    }, 5000);
+}
+
+function closeBigWinPopup() {
+    const popup = document.getElementById("big-win-popup");
+    popup.style.display = "none";
+}
+
+/***********************************************************
+ * SURRENDER
+ ***********************************************************/
+function surrenderFromLobby() {
+    if (!isCurrentlyInATable) {
+        alert("You are not currently in a table.");
+        return;
+    }
+    alert("Surrender from lobby: in real game logic you'd lose the stake of the current or next round according to the phase.");
+    isCurrentlyInATable = false;
+    currentTable = null;
+    resetGameSelections();
+    updateGlobalTimerDisplay();
+}
+
+function surrenderGameFromGame() {
+    if (!isCurrentlyInATable) {
+        alert("You are not currently in a table.");
+        return;
+    }
+    alert("Surrender from game: in real logic you'd lose stake depending on phase.");
+    isCurrentlyInATable = false;
+    currentTable = null;
+    resetGameSelections();
+    updateGlobalTimerDisplay();
+    showView("lobby");
+}
+
+/***********************************************************
+ * RETURN TO LOBBY
+ ***********************************************************/
+function returnToLobbyFromGame() {
+    showView("lobby");
+}
+
+/***********************************************************
+ * RESET GAME SELECTIONS
+ ***********************************************************/
+function resetGameSelections() {
+    gameSelection.clear();
+    const container = document.getElementById("game-number-grid");
+    Array.from(container.children).forEach(ch => {
+        ch.classList.remove("selected", "hit", "drawn-only", "tie-breaker", "non-hit-selected");
+    });
+    document.getElementById("draw-count").textContent = "0";
+    const slots = document.querySelectorAll("#draw-animation-container .slot");
+    slots.forEach(s => { s.textContent = "?"; });
+    const scoreboardBody = document.getElementById("scoreboard-body");
+    scoreboardBody.innerHTML = "";
+}
+
+/***********************************************************
+ * RULES MODAL
+ ***********************************************************/
+function showRules() {
+    document.getElementById("rules-modal").style.display = "flex";
+}
+
+function closeRules() {
+    document.getElementById("rules-modal").style.display = "none";
+}
+
+/***********************************************************
+ * TUTORIAL
+ ***********************************************************/
+function startTutorial() {
+    showView("lobby");
+    document.getElementById("tutorial-overlay").style.display = "flex";
+    buildTutorialSteps();
+    currentTutorialIndex = 0;
+    showTutorialStep();
+}
+
+function skipTutorial() {
+    document.getElementById("tutorial-overlay").style.display = "none";
+}
+
+function nextTutorialStep() {
+    currentTutorialIndex++;
+    if (currentTutorialIndex >= tutorialSteps.length) {
+        skipTutorial();
+        return;
+    }
+    showTutorialStep();
+}
+
+function buildTutorialSteps() {
+    tutorialSteps = [
+        {
+            title: "Welcome to DUEL",
+            text: "This tutorial will show you how to create a table, join one, and see the draw screen.",
+            selector: ".app-header",
+            position: "bottom"
+        },
+        {
+            title: "Create Table",
+            text: "Here you choose K, rounds, stake and type. Then select your numbers in the grid and press 'Create Table'.",
+            selector: ".lobby-create-section",
+            position: "bottom"
+        },
+        {
+            title: "Existing Tables",
+            text: "Here you see available tables. You can filter them and tap to join if you are not already playing.",
+            selector: ".tables-panel",
+            position: "top"
+        },
+        {
+            title: "Draw Screen",
+            text: "This is the draw screen. You see the drawn numbers, your number universe and the dynamic ranking.",
+            selector: "#game-view",
+            position: "center",
+            forceView: "game"
+        },
+        {
+            title: "Timer & Phases",
+            text: "On the top-right you see the timer and the current phase: Previous Results, Number Selection, Locking or Drawing.",
+            selector: ".panel-top-right",
+            position: "left",
+            forceView: "game"
+        }
+    ];
+}
+
+function showTutorialStep() {
+    const box = document.getElementById("tutorial-box");
+    const highlight = document.getElementById("tutorial-highlight");
+    const step = tutorialSteps[currentTutorialIndex];
+
+    if (step.forceView) {
+        showView(step.forceView === "game" ? "game" : "lobby");
+    }
+
+    setTimeout(() => {
+        const target = document.querySelector(step.selector);
+        if (!target) {
+            box.style.left = "50%";
+            box.style.top = "50%";
+            box.style.transform = "translate(-50%, -50%)";
+            highlight.style.display = "none";
+        } else {
+            const rect = target.getBoundingClientRect();
+            highlight.style.display = "block";
+            highlight.style.left = rect.left - 4 + "px";
+            highlight.style.top = rect.top - 4 + "px";
+            highlight.style.width = rect.width + 8 + "px";
+            highlight.style.height = rect.height + 8 + "px";
+
+            let boxX = rect.left;
+            let boxY = rect.top - 10 - 120;
+
+            if (step.position === "bottom") {
+                boxY = rect.bottom + 10;
+            } else if (step.position === "center") {
+                boxX = rect.left + rect.width / 2;
+                boxY = rect.top + rect.height / 2;
+            }
+
+            if (step.position === "center") {
+                box.style.left = "50%";
+                box.style.top = "50%";
+                box.style.transform = "translate(-50%, -50%)";
+            } else {
+                box.style.left = Math.max(10, boxX) + "px";
+                box.style.top = Math.max(10, boxY) + "px";
+                box.style.transform = "none";
+            }
+        }
+
+        document.getElementById("tutorial-step-title").textContent = step.title;
+        document.getElementById("tutorial-step-text").textContent = step.text;
+    }, 100);
+}
+</script>
+</body>
+</html>
